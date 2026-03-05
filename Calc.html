@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        :root {
+            --bg: #121212;
+            --button-bg: #1e1e1e;
+            --accent: #7000ff;
+            --text: #ffffff;
+        }
+
+        body {
+            background-color: var(--bg);
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: var(--text);
+        }
+
+        .calc-container {
+            width: 320px;
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 10px rgba(112,0,255,0.1);
+            border: 1px solid #333;
+        }
+
+        .brand {
+            text-align: center;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            color: var(--accent);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        #display {
+            width: 100%;
+            height: 60px;
+            background: #000;
+            border: none;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            color: var(--accent);
+            font-size: 1.8rem;
+            text-align: right;
+            padding: 10px;
+            box-sizing: border-box;
+            box-shadow: inset 0 0 10px rgba(112,0,255,0.2);
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        button {
+            height: 60px;
+            border-radius: 15px;
+            border: none;
+            background: var(--button-bg);
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 4px 4px 10px rgba(0,0,0,0.3);
+        }
+
+        button:active {
+            transform: scale(0.95);
+            background: #252525;
+        }
+
+        .operator {
+            color: var(--accent);
+        }
+
+        .equals {
+            background: var(--accent);
+            grid-column: span 2;
+        }
+
+        .clear {
+            color: #ff3e3e;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="calc-container">
+        <div class="brand">ANMOL KA CALCULATOR :) </div>
+        <input type="text" id="display" disabled>
+        
+        <div class="buttons">
+            <button class="clear" onclick="clearDisplay()">C</button>
+            <button class="operator" onclick="addToDisplay('/')">/</button>
+            <button class="operator" onclick="addToDisplay('*')">×</button>
+            <button class="operator" onclick="backspace()">⌫</button>
+            
+            <button onclick="addToDisplay('7')">7</button>
+            <button onclick="addToDisplay('8')">8</button>
+            <button onclick="addToDisplay('9')">9</button>
+            <button class="operator" onclick="addToDisplay('-')">-</button>
+            
+            <button onclick="addToDisplay('4')">4</button>
+            <button onclick="addToDisplay('5')">5</button>
+            <button onclick="addToDisplay('6')">6</button>
+            <button class="operator" onclick="addToDisplay('+')">+</button>
+            
+            <button onclick="addToDisplay('1')">1</button>
+            <button onclick="addToDisplay('2')">2</button>
+            <button onclick="addToDisplay('3')">3</button>
+            <button onclick="calculate()">=</button>
+            
+            <button onclick="addToDisplay('0')" style="grid-column: span 2;">0</button>
+            <button onclick="addToDisplay('.')">.</button>
+            <button class="equals" onclick="calculate()">=</button>
+        </div>
+    </div>
+
+    <script>
+        let display = document.getElementById('display');
+
+        function addToDisplay(value) {
+            display.value += value;
+        }
+
+        function clearDisplay() {
+            display.value = '';
+        }
+
+        function backspace() {
+            display.value = display.value.slice(0, -1);
+        }
+
+        function calculate() {
+            try {
+                // Using Function instead of eval for better practice
+                display.value = Function('"use strict";return (' + display.value + ')')();
+            } catch (e) {
+                display.value = 'Error';
+                setTimeout(clearDisplay, 1500);
+            }
+        }
+    </script>
+</body>
+</html>
